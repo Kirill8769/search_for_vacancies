@@ -1,18 +1,18 @@
-
-
 class Vacancy:
-    """ Объект вакансии с различными свойствами """
+    """Объект вакансии с различными свойствами"""
 
-    def __init__(self,
-                 name_company: str,
-                 name: str,
-                 status: str,
-                 published_date: str,
-                 url: str,
-                 salary_from: int,
-                 salary_to: int,
-                 currency: str,
-                 description: str):
+    def __init__(
+        self,
+        name_company: str,
+        name: str,
+        status: str,
+        published_date: str,
+        url: str,
+        salary_from: int,
+        salary_to: int,
+        currency: str,
+        description: str,
+    ) -> None:
         """
         Инициализирует объект Vacancy.
 

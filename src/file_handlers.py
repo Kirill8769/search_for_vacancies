@@ -1,14 +1,14 @@
 import json
 import os
 
-from config import PATH_PROJECT
+from src.config import PATH_PROJECT
 from src.vacancy import Vacancy
 
 
 class JSONSaver:
-    """ Предоставляет функциональность для записи и чтения вакансий в формате JSON. """
+    """Предоставляет функциональность для записи и чтения вакансий в формате JSON."""
 
-    def __init__(self, filename: str):
+    def __init__(self, filename: str) -> None:
         """
         Инициализирует объект JSONSaver.
 

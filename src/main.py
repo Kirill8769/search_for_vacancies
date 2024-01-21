@@ -1,12 +1,10 @@
-import os
 import sys
 from datetime import datetime
 
+from src.config import START_MESSAGE
 from src.api_handlers import HeadHunterAPI, SuperJobAPI
-from src.user_handlers import User
 from src.file_handlers import JSONSaver
-
-from config import START_MESSAGE
+from src.user_handlers import User
 
 
 def main() -> None:
@@ -51,9 +49,9 @@ def main() -> None:
                 print(vacancy.get_short_info())
                 print("-" * 50)
         else:
-            ex_sorted_date = sorted(list_vacancies_ex,
-                                    key=lambda x: datetime.strptime(x.published_date, "%d.%m.%Y %H:%M:%S"),
-                                    reverse=True)
+            ex_sorted_date = sorted(
+                list_vacancies_ex, key=lambda x: datetime.strptime(x.published_date, "%d.%m.%Y %H:%M:%S"), reverse=True
+            )
             if dop_util == "2":
                 for vacancy in ex_sorted_date[:10]:
                     print(vacancy.get_short_info())

@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 
 class MainAPI(ABC):
-    """ Абстрактный базовый класс MainAPI определяет интерфейс для работы с API для получения вакансий. """
+    """Абстрактный базовый класс MainAPI определяет интерфейс для работы с API для получения вакансий."""
 
     @abstractmethod
     def _get_response(self, vacancy: str):
@@ -19,9 +19,9 @@ class MainAPI(ABC):
 
 
 class HeadHunterAPI(MainAPI):
-    """ Предоставляет методы для получения вакансий с сайта hh.ru по API. """
+    """Предоставляет методы для получения вакансий с сайта hh.ru по API."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Инициализирует объект HeadHunterAPI.
         Устанавливает базовый url.
@@ -40,7 +40,7 @@ class HeadHunterAPI(MainAPI):
         page = 0
         end_page = 0
         while True:
-            params = {'text': f'name:{vacancy}', 'area': 113, 'page': page, 'per_page': 100}
+            params = {"text": f"name:{vacancy}", "area": 113, "page": page, "per_page": 100}
             response = requests.get(url=self._base_url, params=params)
             if response.status_code == 200:
                 tmp_result = response.json()
@@ -76,24 +76,26 @@ class HeadHunterAPI(MainAPI):
                 currency = None
             snippet = vacancy["snippet"]
             description = f"Обязанности: {snippet['requirement']}\nТребования: {snippet['responsibility']}"
-            json_result.append({
-                "name_company": vacancy["employer"]["name"],
-                "name": vacancy["name"],
-                "status": vacancy["type"]["name"],
-                "published_date": published_date,
-                "url": vacancy["alternate_url"],
-                "salary_from": salary_from,
-                "salary_to": salary_to,
-                "currency": currency,
-                "description": description
-            })
+            json_result.append(
+                {
+                    "name_company": vacancy["employer"]["name"],
+                    "name": vacancy["name"],
+                    "status": vacancy["type"]["name"],
+                    "published_date": published_date,
+                    "url": vacancy["alternate_url"],
+                    "salary_from": salary_from,
+                    "salary_to": salary_to,
+                    "currency": currency,
+                    "description": description,
+                }
+            )
         return json_result
 
 
 class SuperJobAPI(MainAPI):
-    """ Предоставляет методы для получения вакансий с сайта superjob.ru по API. """
+    """Предоставляет методы для получения вакансий с сайта superjob.ru по API."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Инициализирует объект SuperJobAPI.
         Устанавливает базовый url и API ключ.
@@ -112,14 +114,14 @@ class SuperJobAPI(MainAPI):
         :return: Список словарей с найденными вакансиями.
         """
         result = []
-        headers = {'X-Api-App-Id': self.__secret_key}
-        params = {'count': 500, "keywords[0][keys]": vacancy, "keywords[0][srws]": 1}
+        headers = {"X-Api-App-Id": self.__secret_key}
+        params = {"count": 500, "keywords[0][keys]": vacancy, "keywords[0][srws]": 1}
         response = requests.get(url=self._base_url, params=params, headers=headers)
         if response.status_code == 200:
             result.extend(response.json()["objects"])
         return result
 
-    def get_vacancies(self, vacancy: str):
+    def get_vacancies(self, vacancy: str) -> list:
         """
         Получает информацию о вакансиях с сайта superjob.ru по ключевому слову,
         фильтрует и записывает в JSON-читаемом формате
@@ -133,15 +135,17 @@ class SuperJobAPI(MainAPI):
             tmp_date = datetime.utcfromtimestamp(vacancy["date_published"])
             published_date = tmp_date.strftime("%d.%m.%Y %H:%M:%S")
             status = "Закрыта" if vacancy["is_closed"] else "Открыта"
-            json_result.append({
-                "name_company": vacancy["firm_name"],
-                "name": vacancy["profession"],
-                "status": status,
-                "published_date": published_date,
-                "url": vacancy["link"],
-                "salary_from": vacancy["payment_from"],
-                "salary_to": vacancy["payment_to"],
-                "currency": vacancy["currency"],
-                "description": vacancy["candidat"]
-            })
+            json_result.append(
+                {
+                    "name_company": vacancy["firm_name"],
+                    "name": vacancy["profession"],
+                    "status": status,
+                    "published_date": published_date,
+                    "url": vacancy["link"],
+                    "salary_from": vacancy["payment_from"],
+                    "salary_to": vacancy["payment_to"],
+                    "currency": vacancy["currency"],
+                    "description": vacancy["candidat"],
+                }
+            )
         return json_result

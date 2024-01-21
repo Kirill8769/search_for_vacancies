@@ -1,10 +1,10 @@
-from config import DOP_MESSAGE, SOURCE_MESSAGE
+from src.config import DOP_MESSAGE, SOURCE_MESSAGE
 
 
 class User:
-    """ Предоставляет методы для взаимодействия с пользователем в текстовом интерфейсе. """
+    """Предоставляет методы для взаимодействия с пользователем в текстовом интерфейсе."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
     @staticmethod
