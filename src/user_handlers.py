@@ -1,12 +1,19 @@
-from config import START_MESSAGE, DOP_MESSAGE, SOURCE_MESSAGE
+from config import DOP_MESSAGE, SOURCE_MESSAGE
 
 
 class User:
+    """ Предоставляет методы для взаимодействия с пользователем в текстовом интерфейсе. """
+
     def __init__(self):
         pass
 
     @staticmethod
-    def get_select_source():
+    def get_select_source() -> str:
+        """
+        Получает от пользователя выбор источника данных.
+
+        :return: Выбранный источник данных (строка "1", "2" или "3").
+        """
         print(SOURCE_MESSAGE)
         while True:
             selected_source = input(">> ")
@@ -16,7 +23,12 @@ class User:
             return selected_source
 
     @staticmethod
-    def get_select_dop_util():
+    def get_select_report() -> str:
+        """
+        Получает от пользователя выбор дополнительного отчёта.
+
+        :return: Выбранная цифра (строка "1", "2", "3" или "4").
+        """
         print(DOP_MESSAGE)
         while True:
             selected_dop = input(">> ")
@@ -26,7 +38,12 @@ class User:
             return selected_dop
 
     @staticmethod
-    def get_select_repeat():
+    def get_select_repeat() -> str:
+        """
+        Получает от пользователя выбор повторения запроса.
+
+        :return: Выбор повторения запроса (строка "1" - да, "2" - нет).
+        """
         print("По Вашему запросу не было найдено ни одной вакансии\nПопробуете снова ?\n1 - да, 2 - нет")
         while True:
             num_repeat = input(">> ")

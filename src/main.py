@@ -6,20 +6,21 @@ from src.api_handlers import HeadHunterAPI, SuperJobAPI
 from src.user_handlers import User
 from src.file_handlers import JSONSaver
 
-from config import PATH_PROJECT, START_MESSAGE
+from config import START_MESSAGE
 
 
-def main():
+def main() -> None:
     """
-    INFO
+    Главная функция
+    Взаимодействует с пользователем
     """
     print(f"{START_MESSAGE}\n")
     user = User()
     while True:
         source = user.get_select_source()
         query = input("Введите вакансию\n>> ")
-        filepath = os.path.join(PATH_PROJECT, "data", f"query_{query}.json")
-        file_saver = JSONSaver(filename=filepath)
+        filename = f"query_{query}.json"
+        file_saver = JSONSaver(filename=filename)
         vacancies = []
         if source == "1" or source == "3":
             hh_api = HeadHunterAPI()
@@ -40,7 +41,7 @@ def main():
     print("Статус сохранения найденной информации в файл: Успешно\n")
 
     while True:
-        dop_util = user.get_select_dop_util()
+        dop_util = user.get_select_report()
         if dop_util == "4":
             print("Спасибо что использовали нашу программу")
             sys.exit()

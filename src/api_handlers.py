@@ -7,10 +7,7 @@ from dotenv import load_dotenv
 
 
 class MainAPI(ABC):
-    """
-    Абстрактный класс, который обязывает реализовать методы для добавления вакансий в файл,
-    получения данных из файла по указанным критериям и удаления информации о вакансиях.
-    """
+    """ Абстрактный базовый класс MainAPI определяет интерфейс для работы с API для получения вакансий. """
 
     @abstractmethod
     def _get_response(self, vacancy: str):
@@ -22,16 +19,22 @@ class MainAPI(ABC):
 
 
 class HeadHunterAPI(MainAPI):
+    """ Предоставляет методы для получения вакансий с сайта hh.ru по API. """
+
     def __init__(self):
+        """
+        Инициализирует объект HeadHunterAPI.
+        Устанавливает базовый url.
+        """
         self._base_url = "https://api.hh.ru/vacancies"
 
     def _get_response(self, vacancy: str) -> list:
         """
-        Метод, по ключевому слову, получает список словарей с вакансиями с сайта hh.ru по API
-        Стоит ограничение на сбор информации с пяти первых страниц
+        Метод, по ключевому слову, получает список словарей с вакансиями с сайта hh.ru по API.
+        Стоит ограничение на сбор не более 500 вакансий.
 
-        :param vacancy: Вакансия для поиска
-        :return: Список словарей с найденными вакансиями
+        :param vacancy: Вакансия для поиска.
+        :return: Список словарей с найденными вакансиями.
         """
         result = []
         page = 0
@@ -49,7 +52,14 @@ class HeadHunterAPI(MainAPI):
             page += 1
         return result
 
-    def get_vacancies(self, vacancy: str):
+    def get_vacancies(self, vacancy: str) -> list:
+        """
+        Получает информацию о вакансиях с сайта hh.ru по ключевому слову,
+        фильтрует и записывает в JSON-читаемом формате
+
+        :param vacancy: Вакансия для поиска.
+        :return: Список словарей с отфильтрованной информацией о вакансиях.
+        """
         vacancies_found = self._get_response(vacancy)
         json_result = []
         for vacancy in vacancies_found:
@@ -81,7 +91,13 @@ class HeadHunterAPI(MainAPI):
 
 
 class SuperJobAPI(MainAPI):
+    """ Предоставляет методы для получения вакансий с сайта superjob.ru по API. """
+
     def __init__(self):
+        """
+        Инициализирует объект SuperJobAPI.
+        Устанавливает базовый url и API ключ.
+        """
         self._base_url = "https://api.superjob.ru/2.0/vacancies/"
         load_dotenv()
         secret_key = os.getenv("SUPER_JOB_API")
@@ -89,10 +105,11 @@ class SuperJobAPI(MainAPI):
 
     def _get_response(self, vacancy: str) -> list:
         """
-        Метод, по ключевому слову, получает словарь с вакансиями с сайта superjob.ru по API
+        Метод, по ключевому слову, получает список словарей с вакансиями с сайта superjob.ru по API.
+        Стоит ограничение на сбор не более 500 вакансий.
 
-        :param vacancy: Вакансия для поиска
-        :return: Словарь с найденными вакансиями
+        :param vacancy: Вакансия для поиска.
+        :return: Список словарей с найденными вакансиями.
         """
         result = []
         headers = {'X-Api-App-Id': self.__secret_key}
@@ -103,6 +120,13 @@ class SuperJobAPI(MainAPI):
         return result
 
     def get_vacancies(self, vacancy: str):
+        """
+        Получает информацию о вакансиях с сайта superjob.ru по ключевому слову,
+        фильтрует и записывает в JSON-читаемом формате
+
+        :param vacancy: Вакансия для поиска.
+        :return: Список словарей с отфильтрованной информацией о вакансиях.
+        """
         vacancies_found = self._get_response(vacancy)
         json_result = []
         for vacancy in vacancies_found:
@@ -121,25 +145,3 @@ class SuperJobAPI(MainAPI):
                 "description": vacancy["candidat"]
             })
         return json_result
-
-
-# test = HeadHunterAPI()
-# vac = test._get_response("python")
-# print(len(vac))
-#
-# for i in vac:
-#     print(i)
-#     break
-
-
-# test_2 = SuperJobAPI()
-# vac_2 = test_2._get_response("Аналитик")
-# # #
-# vac_3 = test_2.get_vacancies("Аналитик")
-# for i in vac_2:
-#     print(i)
-# print(vac_2)
-
-# for i in vac_2["objects"]:
-#     print(i)
-#     break
