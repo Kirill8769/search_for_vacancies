@@ -13,15 +13,19 @@ class Vacancy:
         self.description = description
 
     def __str__(self):
-        return f"""
-Название компании: {self.name_company}
+        return f"""Название компании: {self.name_company}
 Название вакансии: {self.name}
 Статус: {self.status}
 Дата публикации: {self.published_date}
 Ссылка: {self.url}
 Зарплата: от {self.salary_from} до {self.salary_to} {self.currency}.
-Описание: {self.description}
-"""
+Описание: {self.description}"""
 
     def __lt__(self, other):
         return (self.salary_from + self.salary_to / 2) < (other.salary_from + other.salary_to / 2)
+
+    def get_short_info(self):
+        return f"""Название вакансии: {self.name}
+Ссылка: {self.url}
+Зарплата: от {self.salary_from} до {self.salary_to} {self.currency}.
+Дата публикации: {self.published_date}"""

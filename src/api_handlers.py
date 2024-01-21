@@ -37,14 +37,14 @@ class HeadHunterAPI(MainAPI):
         page = 0
         end_page = 0
         while True:
-            params = {'text': f'name:{vacancy}', 'area': 1, 'page': page, 'per_page': 10}
+            params = {'text': f'name:{vacancy}', 'area': 113, 'page': page, 'per_page': 100}
             response = requests.get(url=self._base_url, params=params)
             if response.status_code == 200:
                 tmp_result = response.json()
                 if not end_page:
                     end_page = tmp_result["pages"]
                 result.extend(tmp_result["items"])
-            if page >= end_page or page >= 0:
+            if page >= end_page or page >= 4:
                 break
             page += 1
         return result
@@ -96,7 +96,7 @@ class SuperJobAPI(MainAPI):
         """
         result = []
         headers = {'X-Api-App-Id': self.__secret_key}
-        params = {"town": 4, 'count': 20, "keywords[0][keys]": vacancy, "keywords[0][srws]": 1}
+        params = {'count': 500, "keywords[0][keys]": vacancy, "keywords[0][srws]": 1}
         response = requests.get(url=self._base_url, params=params, headers=headers)
         if response.status_code == 200:
             result.extend(response.json()["objects"])
