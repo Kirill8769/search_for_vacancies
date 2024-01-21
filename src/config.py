@@ -1,6 +1,6 @@
 import os
 
-PATH_PROJECT = os.path.dirname(os.path.abspath(__file__))
+PATH_PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 START_MESSAGE = """Вас приветствует программа для поиска вакансий.
 Программа работает с порталами hh.ru и superjob.ru
