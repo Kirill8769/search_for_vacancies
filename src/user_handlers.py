@@ -1,7 +1,7 @@
 from src.config import DOP_MESSAGE, SOURCE_MESSAGE
 
 
-class User:
+class UserInterface:
     """Предоставляет методы для взаимодействия с пользователем в текстовом интерфейсе."""
 
     def __init__(self) -> None:

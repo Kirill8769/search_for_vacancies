@@ -4,7 +4,7 @@ from datetime import datetime
 from src.config import START_MESSAGE
 from src.api_handlers import HeadHunterAPI, SuperJobAPI
 from src.file_handlers import JSONSaver
-from src.user_handlers import User
+from src.user_handlers import UserInterface
 
 
 def main() -> None:
@@ -13,7 +13,7 @@ def main() -> None:
     Взаимодействует с пользователем
     """
     print(f"{START_MESSAGE}\n")
-    user = User()
+    user = UserInterface()
     while True:
         source = user.get_select_source()
         query = input("Введите вакансию\n>> ")
